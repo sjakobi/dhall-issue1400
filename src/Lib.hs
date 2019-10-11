@@ -1,5 +1,5 @@
 {-
->>> putStrLn $ render' $ prettyE sample
+>>> putStrLn $ renderString $ layoutSmart defaultLayoutOptions $ prettyE sample
 [ [ [ 0
     ]
   , [ 0 ]
@@ -7,6 +7,7 @@
     ]
   ]
 ]
+
 -}
 module Lib where
 
@@ -73,6 +74,3 @@ enclose' beginShort beginLong sepShort sepLong endShort endLong docs =
     combineLong x y = x <> y <> hardline
 
     combineShort x y = x <> y
-
-render' :: Doc a -> String
-render' = renderString . layoutSmart defaultLayoutOptions
