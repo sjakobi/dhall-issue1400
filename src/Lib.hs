@@ -40,7 +40,7 @@ list' docs =
         (comma <> space)
         (space <> rbracket)
         rbracket
-        (map (\x -> (x, x)) docs)
+        docs
 
 {-| Format an expression that holds a variable number of elements, such as a
     list, record, or union
@@ -58,25 +58,18 @@ enclose'
     -- ^ Ending document for compact representation
     -> Doc ann
     -- ^ Ending document for multi-line representation
-    -> [(Doc ann, Doc ann)]
-    -- ^ Elements to format, each of which is a pair: @(compact, multi-line)@
+    -> [Doc ann]
+    -- ^ Elements to format
     -> Doc ann
-enclose' beginShort _         _        _       endShort _       []   =
-    beginShort <> endShort
-  where
 enclose' beginShort beginLong sepShort sepLong endShort endLong docs =
     group
         (flatAlt
             (align
-                (mconcat (zipWith combineLong (beginLong : repeat sepLong) docsLong) <> endLong)
+                (mconcat (zipWith combineLong (beginLong : repeat sepLong) docs) <> endLong)
             )
-            (mconcat (zipWith combineShort (beginShort : repeat sepShort) docsShort) <> endShort)
+            (mconcat (zipWith combineShort (beginShort : repeat sepShort) docs) <> endShort)
         )
   where
-    docsShort = fmap fst docs
-
-    docsLong = fmap snd docs
-
     combineLong x y = x <> y <> hardline
 
     combineShort x y = x <> y
