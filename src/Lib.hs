@@ -1,12 +1,8 @@
 {-
 >>> putStrLn $ renderString $ layoutSmart defaultLayoutOptions $ prettyE sample
-[ [ [ 0
-    ]
-  , [ 0 ]
-  , [ 111111111111111111111111111111111111111111111111111111111111111111111111111
-    ]
-  ]
-]
+[ [ [ 0 ]
+  , [0]
+  , [ 111111111111111111111111111111111111111111111111111111111111111111111111111 ] ] ]
 
 -}
 module Lib where
@@ -29,20 +25,4 @@ sample =
 
 prettyE :: E -> Doc a
 prettyE (N n)  = pretty n
-prettyE (L xs) = list' (map prettyE xs)
-
-list' :: [Doc a] -> Doc a
-list' docs =
-    group
-        (flatAlt
-            (align docs'          <> rbracket)
-            (      docs' <> space <> rbracket))
-  where
-    docs' =
-        mconcat
-            (zipWith
-                combine
-                (lbracket : repeat comma)
-                docs)
-
-    combine x y = x <> space <> y <> flatAlt hardline mempty
+prettyE (L xs) = align (list (map prettyE xs))
