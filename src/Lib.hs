@@ -74,10 +74,5 @@ enclose' beginShort beginLong sepShort sepLong endShort endLong docs =
 
     combineShort x y = x <> y
 
-layoutOpts :: LayoutOptions
-layoutOpts =
-    defaultLayoutOptions
-        { layoutPageWidth = AvailablePerLine 80 1.0 }
-
 render' :: Doc a -> String
-render' = renderString . layoutSmart layoutOpts
+render' = renderString . layoutSmart defaultLayoutOptions
