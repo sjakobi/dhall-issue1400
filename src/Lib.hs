@@ -35,8 +35,8 @@ list' :: [Doc a] -> Doc a
 list' docs =
     group
         (flatAlt
-            (align (mconcat (map combineLong  docs'))          <> rbracket)
-            (       mconcat (map combineShort docs')  <> space <> rbracket))
+            (align ((mconcat (map combineLong  docs'))          <> rbracket))
+            (        mconcat (map combineShort docs')  <> space <> rbracket))
   where
     docs' = zip ((lbracket <> space) : repeat (comma <> space)) docs
 
