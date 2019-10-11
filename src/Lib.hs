@@ -35,11 +35,14 @@ list' :: [Doc a] -> Doc a
 list' docs =
     group
         (flatAlt
-            (align (mconcat (map combineLong  docs')          <> rbracket))
-            (       mconcat (map combineShort docs') <> space <> rbracket))
+            (align docs'          <> rbracket)
+            (      docs' <> space <> rbracket))
   where
-    docs' = zip ((lbracket <> space) : repeat (comma <> space)) docs
+    docs' =
+        mconcat
+            (zipWith
+                combine
+                (lbracket : repeat comma)
+                docs)
 
-    combineLong (x, y) = x <> y <> hardline
-
-    combineShort (x, y) = x <> y
+    combine x y = x <> space <> y <> flatAlt hardline mempty
